@@ -1,0 +1,33 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.mapper.OrderMapper">
+    
+    <!-- 주문 번호(O_NUM) 생성 -->
+    <select id="getNewOrderNumber" resultType="long">
+        SELECT OI_ONUM_SEQ.NEXTVAL FROM DUAL
+    </select>
+    <!-- 주문 메뉴 조회 -->
+    
+    <select id="selectOrderMenus" resultType="com.project.domain.OrderMenuDTO">
+        SELECT 
+       		* 
+       	FROM 
+       		ORDER_MENU
+       	WHERE 
+       		o_num= #{o_number}
+    </select>
+
+	<!-- 추가 메뉴 조회 -->
+    <select id="selectOrderAdds" resultType="com.project.domain.OrderAddDTO">
+        SELECT 
+        	* 
+        FROM 
+        	ORDER_ADD 
+        WHERE 
+        	o_num = #{o_number}
+    </select>
+    
+    
+    
+    
+</mapper>
