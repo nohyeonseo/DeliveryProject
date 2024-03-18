@@ -2,6 +2,7 @@ package com.project.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.domain.OrderAddDTO;
@@ -18,6 +19,7 @@ import lombok.extern.log4j.Log4j;
 @AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
     
+    @Autowired
     private final OrderMapper mapper;
 
     @Override
@@ -63,6 +65,17 @@ public class OrderServiceImpl implements OrderService {
 		
 	}
 
+	@Override
+    public void processOrder(Map<String, Object> orderData) {
+        // 주문 데이터 삽입
+		mapper.insertOrder(orderData);
 
+        // 주문 메뉴 데이터 처리
+        List<Map<String, Object>> orderMenus = (List<Map<String, Object>>) orderData.get("orderMenus");
+        for (Map<String, Object> menuData : orderMenus) {
+            menuData.put("oNumber", orderData.get("oNumber")); // 주문 번호를 메뉴 데이터에 추가
+            mapper.insertOrderMenu(menuData);
+        }
+    }
     
 }

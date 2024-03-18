@@ -353,6 +353,7 @@
 		        }
 		    });
 		});
+		//세션에 저장된 항목을 디비에 저장
 		('#menusave').click(function() {
 		    $.ajax({
 		        url: "/menu/menusave", // 서버 측 URL로 변경해야 합니다.
@@ -360,81 +361,14 @@
 		        success: function(response) {
 		            alert("장바구니가 성공적으로 저장되었습니다.");
 		            // 필요한 추가 로직 (예: 페이지 리다이렉션)
+		            window.location.href="/order/orderinfo.jsp"; 
 		        },
 		        error: function(error) {
-		            alert("저장 과정에서 오류가 발생했습니다. 다시 시도해주세요.");
+		            alert("","저장 과정에서 오류가 발생했습니다. 다시 시도해주세요.");
 		        }
 		    });
 		});
 		
-		
-		
-        //세션에 푸쉬
-/*         function addToCart(m_id, m_num, m_price)
-        {	
-        	var m_id = $('#m_id_input').val();
-        	var m_num = $('#m_num_input').val();
-        	var m_price = $('#m_price_input').val();
-        	
-            var selectedItems = [];
-            
-            $('.menu-add-checkbox:checked').each(function()
-            {
-            	var a_id = $(this).data("a-id");    
-            	var a_name = $(this).data("a-name");
-            	var a_price = $(this).data("a-price");
-            	var a_quantity = $(this).closest("li").find(".menu-add-quantity").val();
-            	
-            	var MenuItem = 
-            	{
-          			m_id: m_id,
-                   	m_num: m_num,
-                    m_price: m_price,
-                    a_id: a_id,
-                    a_name: a_name,
-                    a_price: a_price,
-                    a_quantity: a_quantity
-                };            
-                selectedItems.push(MenuItem);
-            });
-            console.log("Selected items:", selectedItems);
-            
-            $.ajax({
-            url: "/menu/sessionCart",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(selectedItems),
-            success: function(response) 
-            {
-                console.log("메뉴가 담겼습니다.:", response);
-                alert("성공적으로 담겼습니다.!");
-                $("#menuModal").modal('hide');
-            },
-            error: function(error) {
-                console.error("메뉴를 담는데 실패하였습니다.", error);
-                alert("메뉴를 담는데 실패");
-            }
-        });
-        }
-         */
-        
-        //디비 저장고 조회 이부분은 다시 
-//         $("#orderDetail").click(function() {
-// 		    $.ajax({
-// 		        url: "/order/confirm",
-// 		        type: "POST",
-// 		        success: function(response) 
-// 		        {
-// 		            alert("주문이 완료되었습니다.");
-// 		            location.href= "/order/viewOrder/" + response.o_number; 
-// 		        },
-// 		        error: function(xhr, status, error) {
-// 		            console.error("메뉴를 담는데 실패하였습니다. 상태: ", status, "오류: ", error, "응답: ", xhr.responseText);
-// 		            alert("메뉴를 담는데 실패하였습니다. 상세 오류: " + xhr.responseText);
-// 		        }
-// 		    });
-// 		});
-        
         
     </script>	
     <!-- 푸터 시작 -->

@@ -97,6 +97,33 @@ public class OrderController
      	return "ordeinfo";
      }
 
-    
+     //디비에 저장된 주문내역을 조회하는 컨트롤러
+     @GetMapping("/order/orderinfo")
+     public String getOrderInfo(Model model, HttpSession session) 
+     {
+    	 String userId = (String) session.getAttribute("userId");
+    	 
+         // 데이터베이스에서 주문 내역 조회 로직 (가장 최근 주문 내역 또는 특정 사용자의 주문 내역 등)
+         OrderInfo orderInfo = service.getOrderInfoByUserId(userId); // 가상의 메서드 호출
+         
+         model.addAttribute("orderInfo", orderInfo);
+
+         return "order/orderinfo"; // 주문서 페이지 경로
+     }
+     //완전한 주문
+     @PostMapping("/order/processOrder")
+     public ResponseEntity<?> processorder(@RequestBody Map<String, Object> orderData){
+    	 try {
+    		 service.processOrder(orderData);
+    		 return ResponseEntity.ok().body("주문이 성공적으로 처리되었습니다.");
+    	 }
+    	 catch(e) {
+    		 e.printStackTrace();
+             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("주문 처리 중 오류 발생");
+         }
+     	
+    	 
+     }
+     
     
 }

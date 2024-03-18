@@ -18,4 +18,7 @@ public interface OrderMapper
 	
 	void insertOrderAddMenu(OrderAddDTO orderAdd);
 	
+    void insertOrder(Map<String, Object> orderData);
+    void insertOrderMenu(Map<String, Object> menuData);
+	
 }

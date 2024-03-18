@@ -6,5 +6,5 @@ import com.project.domain.UserVO;
 public interface UserMapper {
 	public void insert(UserDTO user);
 	
-	public UserVO selectByUserId(String u_id);
+	public UserVO selectByUserId(String u_id,String u_pw);
 }

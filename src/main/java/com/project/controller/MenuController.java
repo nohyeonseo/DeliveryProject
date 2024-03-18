@@ -124,7 +124,7 @@ public class MenuController {
 			
 			return "장바구니에 추가되었습니다.";
 		}
-	
+	//세션에 저장된 주문을 디비로 저장
 	@PostMapping("/menusave")
     public ResponseEntity<String> saveSessionToDb(HttpSession session) {
         

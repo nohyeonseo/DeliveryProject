@@ -27,7 +27,17 @@
         	o_num = #{o_number}
     </select>
     
-    
+        <!-- 주문 데이터 삽입 -->
+    <insert id="insertOrder" parameterType="map">
+        INSERT INTO orders (order_number, r_id, o_addr, p_code, t_code, o_req)
+        VALUES (#{oNumber}, #{rId}, #{oAddr}, #{pCode}, #{tCode}, #{oReq})
+    </insert>
+
+    <!-- 주문 메뉴 데이터 삽입 -->
+    <insert id="insertOrderMenu" parameterType="map">
+        INSERT INTO order_menus (order_number, m_name, m_num, m_price)
+        VALUES (#{oNumber}, #{mName}, #{mNum}, #{mPrice})
+    </insert>
     
     
 </mapper>

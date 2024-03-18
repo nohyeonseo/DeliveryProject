@@ -21,48 +21,32 @@
 </head>
 <body>
 <!-- 헤더 -->
+<!-- 삼항연산자를 사용하여 로그인 전후 표현  -->
     <nav class="navbar navbar-light bg-danger position-fixed">
         <div class="container-md">
-            <div>
-                <a class="navbar-brand" href="/">
-                    <img src="no-photo.png" width="30" height="30">
-                </a>
-
-                <!-- * 로그인 전에는 표시안함 -->
-                <!-- <span class="navbar-text text-white"><i class="bi bi-geo-alt-fill"></i>&nbsp;<b>주소표시</b></span>
-                <button type="button" class="btn btn-danger btn-sm"><i class="bi bi-caret-down-fill"></i></button> -->
-                <!-- -->
-            </div>
-
-            <!-- 로그인 전 -->
-            <div>
-                <button type="button" class="btn btn-light">로그인</button>
-            </div>
-
-            <!-- 로그인 후 -->
-            <!-- <div>
-                <a href="#" class="btn btn-danger"><i class="bi bi-shop" style="font-size: 1.5rem;"></i></a>
-
-                <a href="#" class="btn btn-danger position-relative">
-                    <i class="bi bi-cart" style="font-size: 1.5rem;"></i> -->
-
-                    <!-- * 장바구니에 아이템 있을 시 표시 -->
-                    <!-- <span
-                        class="position-absolute top-0 start-100 translate-middle p-2 bg-warning border border-light rounded-circle">
-                        <span class="visually-hidden"></span>
-                    </span> -->
-                    <!--  -->
-                <!-- </a> -->
-
-                <!-- 
-                    * 버튼 클릭시 회원정보 페이지로 이동
-                -->
-                <!-- <a href="#" class="btn btn-danger"><i class="bi bi-person-fill" style="font-size: 1.5rem;"></i></a>
-
-                <button type="button" class="btn btn-light">로그아웃</button> -->
-            </div>
-        </div>
-    </nav>
+        
+        
+		 <div>
+		    <a class="navbar-brand" href="/">
+		        <img src="no-photo.png" width="30" height="30">
+		    </a>
+		    <!-- 로그인 상태에 따른 내용 표시 -->
+		    <% boolean isLoggedIn = session.getAttribute("isLoggedIn") != null && (Boolean)session.getAttribute("isLoggedIn"); %>
+		    <div>
+		        <%= !isLoggedIn ? "<button type='button' class='btn btn-light'>로그인</button>" : "" %>
+		    </div>
+		
+		    <!-- 로그인 후 내용 -->
+		    <div>
+		        <%= isLoggedIn ? "<a href='#' class='btn btn-danger'><i class='bi bi-shop' style='font-size: 1.5rem;'></i></a>"
+		                        + "<a href='#' class='btn btn-danger position-relative'><i class='bi bi-cart' style='font-size: 1.5rem;'></i></a>"
+		                        + "<a href='#' class='btn btn-danger'><i class='bi bi-person-fill' style='font-size: 1.5rem;'></i></a>"
+		                        + "<button type='button' class='btn btn-light'>로그아웃</button>" : "" %>
+		    </div>
+		</div>
+           
+       </div>
+   </nav>
 	
     <!-- 컨텐츠 -->
     <div class="contents">
@@ -76,14 +60,12 @@
                     <h4>주문서</h4>
 
                     <hr>
-					<!-- /order/menus/{o_number}ì /order/adds/{o_number} -->
-                    <!-- 아랫것들 value 속성에 DB에서 가져온 id 값 넣어야됨 -->
                     <input type="hidden" name="r_id" value="r_id">
                     <input type="hidden" name="u_id" value="u_id">
 
                      <!-- 가게 정보 -->
                     <div class="row">
-                        <label class="col-md-3 col-sm-12 col-form-label"><b>ê°ê²ì ë³´</b></label>
+                        <label class="col-md-3 col-sm-12 col-form-label"><b> 주문정보 </b></label>
                         <div class="col-md-9 col-sm-12">
                             <div class="card">
                                 <div class="row g-0">
@@ -96,8 +78,8 @@
 
                                     <div class="col-10">
                                         <div class="card-body">
-                                            <h5 class="card-title"><a href="#" class="text-decoration-none text-dark">ê°ê² ì´ë¦</a></h5>
-                                            <p class="card-text"><i class="bi bi-star-fill text-warning"></i>&nbsp;0.0(ë¦¬ë·°ì)</p>
+                                            <h5 class="card-title"><a href="#" class="text-decoration-none text-dark"></a></h5>
+                                            <p class="card-text"><i class="bi bi-star-fill text-warning"></i>&nbsp; </p>
                                             <p class="card-text">결제방식 | 최소주문금액</p>
                                         </div>
                                     </div>
@@ -129,6 +111,7 @@
 					            <input type="text" value="${orderMenu.m_price}" class="form-control border-0 bg-white" readonly>
 					        </div>
 					    </div>
+					    <c:set var="totalSum" value="${totalSum + (orderMenu.m_num * orderMenu.m_price)}" />
 					</c:forEach>
 					
                     <!-- 메뉴 정보 -->
@@ -137,26 +120,6 @@
                         <label class="col-4 col-form-label"><b>수량</b></label>
                         <label class="col-4 col-form-label"><b>가격</b></label>
                     </div>
-					
-					<!-- 추가 메뉴 목록 -->
-					<c:forEach var="orderAdd" items="${orderAddList}">
-					    <div class="row">
-					        <div class="col-4">
-					            <input type="text" value="${orderAdd.a_id}" class="form-control border-0 bg-white" readonly>
-					        </div>
-					        <div class="col-4">
-					            <input type="text" value="${orderAdd.a_number}" class="form-control border-0 bg-white" readonly>
-					        </div>
-					        <div class="col-4">
-					            <input type="text" value="${orderAdd.a_price}" class="form-control border-0 bg-white" readonly>
-					        </div>
-					    </div>
-					</c:forEach>
-                    <!-- 추가 메뉴 목록 -->
-
-                    <!-- 메뉴 목록 --
-
-                    <!-- 합계 -->
                     <div class="row">
 					    <div class="col-8">
 					        <b>합계</b>>
@@ -165,8 +128,7 @@
 					        <input type="text" name="o_tprice" value="${totalSum}" class="form-control border-0 bg-white" readonly>
 					    </div>
 					</div> 
-                    <!-- 합계 -->
-                    <!-- 메뉴 정보 -->
+
 				</form>
 				
 				
@@ -180,8 +142,6 @@
                         <label for="o_addr" class="col-3 col-form-label"><b>배달지 주소</b></label>
                         <div class="col-9">
                             <select class="form-select" id="o_addr">
-                                <!-- DB에서 USER_ADDR 데이터 들고와서 option태그 생성해야함 -->
-                                <!-- 네브바에서 설정된 주소에 selected 옵션 부여 -->
                                 <option value="1">주소1</option>
                             </select>
                         </div>
@@ -193,7 +153,6 @@
                         <label for="p_code" class="col-3 col-form-label"><b>결제방식</b></label>
                         <div class="col-9">
                             <select class="form-select" id="p_code">
-                                <!-- DB에서 PAY_METHOD 데이터 들고와서 option태그 생성해야함 -->
                                 <option value="1">결제방식1/option>
                             </select>
                         </div>
@@ -205,14 +164,10 @@
                         <label for="t_code" class="col-3 col-form-label"><b>주문방식</b></label>
                         <div class="col-9">
                             <select class="form-select" id="t_code">
-                                <!-- DB에서 T_CODE 데이터 들고와서 option태그 생성해야함 -->
                                 <option value="1">주문방식1</option>
                             </select>
                         </div>
                     </div>
-                    <!-- ì£¼ë¬¸ ë°©ì -->
-
-                    <!-- ìì²­ ì¬í­ -->
                     <div class="row">
                         <label for="m_intro" class="col-3 col-form-label"><b>요청사항</b></label>
                         <div class="col-9">
@@ -228,8 +183,6 @@
                             <input type="hidden" name="s_code" value="1">
                         </div>
                     </div>
-                    <!-- ì£¼ë¬¸ ìí -->
-
                     <div class="row">
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary">주문하기</button>
@@ -237,6 +190,7 @@
                         </div>
                     </div>
                 </form>
+                
             </div>
         </div>
     </div>
@@ -254,5 +208,48 @@
     <!-- 푸터 끝 -->
 
     <script src="/js/delivery.js"></script>
+    <script>
+	$(document).ready(function() {
+	    $("#submitOrder").click(function(e) {
+	        e.preventDefault(); 
+	
+	        // 주문 데이터 수집
+	        var orderData = {
+	            "oNumber": $("#o_number").val(),
+	            "rId": $("#r_id").val(),
+	            "oAddr": $("#o_addr").val(),
+	            "pCode": $("#p_code").val(),
+	            "tCode": $("#t_code").val(),
+	            "oReq": $("#o_req").val(),
+	            "orderMenus": []
+	        };
+	
+	        // 메뉴 목록 수집
+	        $(".menu-row").each(function() {
+	            var menu = {
+	                "mName": $(this).find(".m_name").val(),
+	                "mNum": parseInt($(this).find(".m_num").val()),
+	                "mPrice": parseFloat($(this).find(".m_price").val())
+	            };
+	            orderData.orderMenus.push(menu);
+	        });
+	
+	        // AJAX 요청
+	        $.ajax({
+	            url: "/order/processOrder",
+	            type: "POST",
+	            contentType: "application/json",
+	            data: JSON.stringify(orderData),
+	            success: function(response) {
+	                window.location.href = "/order/confirmation";
+	            },
+	            error: function(xhr, status, error) {
+	                alert("오류 발생: " + error);
+	            }
+	        });
+	    });
+	});
+	</script>
+    
 </body>
 </html>

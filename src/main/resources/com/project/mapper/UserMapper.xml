@@ -16,6 +16,7 @@
 		FROM
 			USER_INFO
 		WHERE
-			U_ID = #{u_id}
+			U_ID = #{u_id},
+			U_PASSWORD = #{u_pw}
 	</select>
 </mapper>
